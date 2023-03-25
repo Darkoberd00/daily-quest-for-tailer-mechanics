@@ -1,3 +1,4 @@
 export interface Keys {
-    botToken: string
-}
+    clientToken: string
+    testGuild: string
+  }
