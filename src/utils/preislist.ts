@@ -1,4 +1,4 @@
-export const TuningPreislist = {
+export const TuningPreislist = { // 2-3
     "motor": {
         "stufeI": 10000,
         "stufeII": 15000,
@@ -91,7 +91,7 @@ export const TuningPreislist = {
     }
 }
 
-export const RepairPreislist = {
+export const RepairPreislist = { // 3-5
     "scheinwerfer": 500,
     "motorhaube": 2000,
     "reifen": 500,
@@ -112,8 +112,10 @@ export const RepairPreislist = {
     "kratzer raus polieren": 500
 }
 
-export const InspectionPreislist = {
-   "inspection": 500,
-   "oel wechsel": 200,
-   "filterwechsel": 300,
+export const InspectionPreislist = { // 20%
+   "inspection": 500, // 2/3
+   "oel wechsel": 200, // 1/6
+   "filterwechsel": 300, // 1/6
 }
+
+// 40.000 - 70.000

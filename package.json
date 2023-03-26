@@ -5,14 +5,14 @@
   "mai": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "start": "node .",
+    "start": "node ./dist",
     "dev": "nodemon --config nodemon.json src/index.ts",
     "deploy": "cross-env IS_SCRIPT=true ts-node src/scripts/deploy",
     "deploy-prod": "cross-env NODE_ENV=production npm run deploy"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/node": "^18.15.5",
     "nodemon": "^2.0.22",
