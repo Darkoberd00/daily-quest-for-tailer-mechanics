@@ -8,7 +8,7 @@ export default event('interactionCreate', async (
   },
   interaction,
 ) => {
-  if (!interaction.isButton() && !interaction.isSelectMenu()) return
+  if (!interaction.isButton() && !interaction.isStringSelectMenu()) return
   const [namespace] = readId(interaction.customId)
 
   // If namespace not in help pages stop

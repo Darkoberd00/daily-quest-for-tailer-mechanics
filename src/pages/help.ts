@@ -1,6 +1,6 @@
 import { ActionRowBuilder, ButtonBuilder, SelectMenuBuilder } from "@discordjs/builders"
 import { debug } from "console"
-import { APIEmbedField, ButtonStyle, EmbedBuilder, InteractionReplyOptions, SelectMenuOptionBuilder } from "discord.js"
+import { APIEmbedField, ButtonStyle, EmbedBuilder, InteractionReplyOptions, StringSelectMenuOptionBuilder } from "discord.js"
 import CategoryRoot from  '../commands'
 import { chunk, createId, readId } from "../utils"
 
@@ -24,7 +24,7 @@ const A = Actions
 export function getCategoryRoot(ephemeral?: boolean): InteractionReplyOptions {
   // Map the categories
   const mappedCategories = CategoryRoot.map(({ name, description, emoji }) =>
-    new SelectMenuOptionBuilder({
+    new StringSelectMenuOptionBuilder({
       label: name,
       description,
       emoji,
