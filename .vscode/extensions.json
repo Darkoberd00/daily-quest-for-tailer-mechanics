@@ -1,0 +1,15 @@
+{
+	"recommendations": [
+		"ms-vscode.vscode-typescript-next",
+		"esbenp.prettier-vscode",
+		"jasonnutter.search-node-modules",
+		"icrawl.discord-vscode",
+		"yzhang.markdown-all-in-one",
+		"ms-azuretools.vscode-docker",
+		"ms-vscode-remote.remote-containers",
+		"eamodio.gitlens",
+		"vivaxy.vscode-conventional-commits",
+		"PKief.material-icon-theme",
+		"christian-kohler.npm-intellisense"
+	]
+}
