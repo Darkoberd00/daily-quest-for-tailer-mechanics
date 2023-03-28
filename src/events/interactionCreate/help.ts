@@ -1,4 +1,4 @@
-import { SelectMenuInteraction } from "discord.js";
+import { StringSelectMenuInteraction } from "discord.js";
 import { getCategoryPage, getCategoryRoot, Namespaces } from "../../pages/help";
 import { createId, EditReply, event, readId, Reply } from "../../utils";
 
@@ -19,7 +19,7 @@ export default event("interactionCreate", async ({ log }, interaction) => {
 			case Namespaces.select:
 				const newId = createId(
 					Namespaces.select,
-					(interaction as SelectMenuInteraction).values[0]
+					(interaction as StringSelectMenuInteraction).values[0]
 				);
 				return await interaction.editReply(getCategoryPage(newId));
 			case Namespaces.action:

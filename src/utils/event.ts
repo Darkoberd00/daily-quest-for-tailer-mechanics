@@ -11,7 +11,7 @@ export function event<T extends EventKeys>(
 	};
 }
 
-export function registerEvents(client: Client, events: Event<any>[]): void {
+export async function registerEvents(client: Client, events: Event<any>[]): Promise<void> {
 	for (const event of events)
 		client.on(event.id, async (...args) => {
 			// Create Props
