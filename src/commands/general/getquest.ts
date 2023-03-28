@@ -1,11 +1,13 @@
-import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import { SlashCommandBuilder } from "discord.js";
 import {
 	command,
 	getFakePerson,
-	Colors,
-	getAllCategoryVehicles,
 	getRandomVehicleFromCategorys,
+	generateRepareList,
+	generateInspectionList,
+	generateTuningList,
 } from "../../utils";
+import { generateEmbedRepair } from "../../embeds";
 
 const meta = new SlashCommandBuilder()
 	.setName("getquest")
@@ -24,31 +26,24 @@ export default command(meta, async ({ interaction }) => {
 		"vans"
 	);
 
-	const embed = new EmbedBuilder()
-		.setImage(vehicle.stats.images.frontQuarter.toString())
-		.setTimestamp(new Date())
-		.setTitle("Daily Quest")
-		.setColor(Colors.daily)
-		.setDescription(
-			"The customer " +
-				person.name +
-				" would like to repair the car " +
-				vehicle.name +
-				"."
-		)
-		.addFields(
-			{
-				name: "Customer",
-				value: person.name,
-			},
-			{
-				name: "Vehicel",
-				value: vehicle.name,
-			}
-		);
+	let tuningList = generateTuningList(4, 6);
+	let repairList = generateRepareList(4, 6, vehicle);
+	let inspectionList = null;
+
+	if (Math.random() < 0.2) {
+		inspectionList = generateInspectionList();
+	}
 
 	return interaction.reply({
 		ephemeral: false,
-		embeds: [embed],
+		embeds: [
+			generateEmbedRepair(
+				vehicle,
+				person,
+				repairList,
+				tuningList,
+				inspectionList
+			),
+		],
 	});
 });

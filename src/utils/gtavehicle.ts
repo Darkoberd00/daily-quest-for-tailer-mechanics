@@ -1,5 +1,11 @@
 import { Vehicle, VehicleInformation, VehiclesCategory } from "../types";
 
+/**
+ * Fetches a random vehicle from the GTAV vehicle API of the given categories.
+ *
+ * @param args - a list of vehicle categories
+ * @returns {Vehicle} a random vehicle from the given categories
+ */
 export async function getRandomVehicleFromCategorys(
 	...args: string[]
 ): Promise<Vehicle> {
@@ -19,6 +25,11 @@ export async function getRandomVehicleFromCategorys(
 	return vehicleName;
 }
 
+/**
+ * Fetches all vehicles from the GTAV vehicle API and sorts them into categories.
+ *
+ * @returns {VehiclesCategory[]} a list of vehicles sorted into categories
+ */
 export async function getAllCategoryVehicles(): Promise<VehiclesCategory[]> {
 	return fetch("https://gta.vercel.app/api/vehicles/class", {
 		method: "GET",
@@ -40,6 +51,12 @@ export async function getAllCategoryVehicles(): Promise<VehiclesCategory[]> {
 		});
 }
 
+/**
+ * Fetches all vehicles from a category from the GTAV vehicle API.
+ *
+ * @param key - The category name
+ * @returns {Promise<Vehicle[]>} The list of vehicles from the category
+ */
 export async function getAllVehiclesFromCategory(
 	key: string
 ): Promise<Vehicle[]> {

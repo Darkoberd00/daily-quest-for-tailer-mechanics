@@ -6,4 +6,5 @@ export * from "./interaction";
 export * from "./namefake";
 export * from "./gtavehicle";
 export * from "./color";
-export * from "./preislist";
+export * from "./pricelist";
+export * from "./reparegenerator";
