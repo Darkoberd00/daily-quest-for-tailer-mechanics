@@ -3,7 +3,7 @@ import {
 	command,
 	getFakePerson,
 	getRandomVehicleFromCategorys,
-	generateRepareList,
+	generateRepairList,
 	generateInspectionList,
 	generateTuningList,
 } from "../../utils";
@@ -14,35 +14,21 @@ const meta = new SlashCommandBuilder()
 	.setDescription("Get a random Quest for Tailer-Mechanics");
 
 export default command(meta, async ({ interaction }) => {
-	let person = await getFakePerson();
-	let vehicle = await getRandomVehicleFromCategorys(
-		"coupes",
-		"muscle",
-		"offroad",
-		"sports",
-		"sportsclassics",
-		"super",
-		"suvs",
-		"vans"
-	);
-
-	let tuningList = generateTuningList(4, 6);
-	let repairList = generateRepareList(4, 6, vehicle);
-	let inspectionList = null;
-
-	if (Math.random() < 0.2) {
-		inspectionList = generateInspectionList();
-	}
-
+	interaction.channel?.sendTyping();
 	return interaction.reply({
 		ephemeral: false,
 		embeds: [
-			generateEmbedRepair(
-				vehicle,
-				person,
-				repairList,
-				tuningList,
-				inspectionList
+			await generateEmbedRepair(
+				{min: 4, max:6}, 
+				{min: 4, max: 6}, 
+				"coupes", 
+				"muscle", 
+				"offroad",
+				"sports",
+				"sportsclassics",
+				"super",
+				"suvs",
+				"vans"
 			),
 		],
 	});

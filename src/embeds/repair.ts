@@ -1,6 +1,6 @@
 import { EmbedBuilder } from "discord.js";
-import { Vehicle, Namefakes, Repair } from "../types";
-import { Colors } from "../utils";
+import { Vehicle, Namefakes, Repair, Range } from "../types";
+import { Colors, generateInspectionList, generateRepairList, generateTuningList, getFakePerson, getRandomVehicleFromCategorys } from "../utils";
 
 /**
  * Generates an embed for the Vehicle to repair.
@@ -13,13 +13,23 @@ import { Colors } from "../utils";
  * @returns {EmbedBuilder} The embed that needs to be send
  * @example
  **/
-export function generateEmbedRepair(
-	vehicle: Vehicle,
-	person: Namefakes,
-	repairList: Repair[],
-	tuningList: Repair[],
-	inspectionList: Repair[] | null
-): EmbedBuilder {
+export async function generateEmbedRepair(
+	tuning: Range,
+	repair: Range,
+	...vehicelCategorys: string[]
+): Promise<EmbedBuilder> {
+
+	let person = await getFakePerson();
+	let vehicle = await getRandomVehicleFromCategorys(...vehicelCategorys);
+
+	let tuningList = generateTuningList(tuning.min, tuning.max);
+	let repairList = generateRepairList(tuning.min, tuning.max, vehicle);
+	let inspectionList = null;
+
+	if (Math.random() < 0.2) {
+		inspectionList = generateInspectionList();
+	}
+
 	const embed = new EmbedBuilder()
 		.setImage(vehicle.stats.images.frontQuarter.toString())
 		.setTimestamp(new Date())

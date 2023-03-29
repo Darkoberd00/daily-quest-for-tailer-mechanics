@@ -1,4 +1,4 @@
-import { Repair, Price, Vehicle } from "../types";
+import { Repair, Price, Vehicle, Operation } from "../types";
 import {
 	TuningPricelist,
 	RepairPriceList,
@@ -13,10 +13,12 @@ import {
  * @returns {Repair[]} The list of tunings that need to be done
  */
 export function generateTuningList(min: number, max: number): Repair[] {
-	let tuningList = TuningPricelist;
+	let tuningList: Operation[] = Object.assign([], TuningPricelist);
 	let repairList: Repair[] = [];
+
 	for (let i = 0; i < Math.floor(Math.random() * max) + min; i++) {
 		let random = Math.floor(Math.random() * tuningList.length);
+
 		if (Array.isArray(tuningList[random].price)) {
 			let list: Price[] = tuningList[random].price as Price[];
 			let randomPrice = Math.floor(Math.random() * list.length);
@@ -43,12 +45,12 @@ export function generateTuningList(min: number, max: number): Repair[] {
  * @param vehicle - The vehicle that needs to be repaired
  * @returns {Repair[]} The list of repairs that need to be done
  */
-export function generateRepareList(
+export function generateRepairList(
 	min: number,
 	max: number,
 	vehicle: Vehicle
 ): Repair[] {
-	let repairList = RepairPriceList;
+	let repairList: Operation[] = Object.assign([], RepairPriceList);
 	let list: Repair[] = [];
 	for (let i = 0; i < Math.floor(Math.random() * max) + min; i++) {
 		let random = Math.floor(Math.random() * repairList.length);
@@ -71,7 +73,6 @@ export function generateRepareList(
 				price: repairList[random].price as number,
 			});
 		}
-		repairList.splice(random, 1);
 	}
 	return list;
 }
@@ -82,7 +83,7 @@ export function generateRepareList(
  * @returns {Repair[]} The list of inspections that need to be done
  */
 export function generateInspectionList(): Repair[] {
-	let inspectionList = InspectionPricelist;
+	let inspectionList: Operation[] = Object.assign([], InspectionPricelist);
 	let repairlist: Repair[] = [];
 	for (let i = 0; i < 1; i++) {
 		let random = Math.floor(Math.random() * inspectionList.length);
