@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
-import { scheduleJob, RecurrenceRule, RecurrenceSegment } from "node-schedule";
+import { scheduleJob, RecurrenceRule } from "node-schedule";
 import { command, createdJob } from "../../utils";
 import { generateEmbedRepair } from "../../embeds";
 
@@ -40,6 +40,8 @@ const meta = new SlashCommandBuilder()
 	);
 
 export default command(meta, ({ interaction }) => {
+	interaction.deferReply({ ephemeral: true });
+	interaction.channel?.sendTyping();
 	let sec = interaction.options.getInteger("seconds");
 	let min = interaction.options.getInteger("minute");
 	let hour = interaction.options.getInteger("hour");
@@ -60,24 +62,25 @@ export default command(meta, ({ interaction }) => {
 		scheduleJob(rules, async (job) => {
 			let message = new EmbedBuilder();
 			message.setTitle("schedule job");
-			message.setDescription("This is a test Message")
-			message.setTimestamp(job)
+			message.setDescription("This is a test Message");
+			message.setTimestamp(job);
 			interaction.channel?.sendTyping();
-			if(jobname == "Car"){
+			if (jobname == "Car") {
 				message = await generateEmbedRepair(
-					{min: 4, max:6}, 
-					{min: 4, max: 6}, 
-					"coupes", 
-					"muscle", 
+					{ min: 4, max: 6 },
+					{ min: 4, max: 6 },
+					"coupes",
+					"muscle",
 					"offroad",
 					"sports",
 					"sportsclassics",
 					"super",
 					"suvs",
-					"vans");
+					"vans"
+				);
 			}
 			message.setFooter({
-				text: "[JobName: "+(jobname)+"]"
+				text: "[JobName: " + jobname + "]",
 			});
 			interaction.channel?.send({
 				embeds: [message],
@@ -85,8 +88,7 @@ export default command(meta, ({ interaction }) => {
 		})
 	);
 
-	return interaction.reply({
-		ephemeral: true,
+	return interaction.editReply({
 		content: "schedule is started",
 	});
 });

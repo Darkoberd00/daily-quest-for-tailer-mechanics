@@ -1,6 +1,13 @@
 import { EmbedBuilder } from "discord.js";
 import { Vehicle, Namefakes, Repair, Range } from "../types";
-import { Colors, generateInspectionList, generateRepairList, generateTuningList, getFakePerson, getRandomVehicleFromCategorys } from "../utils";
+import {
+	Colors,
+	generateInspectionList,
+	generateRepairList,
+	generateTuningList,
+	getFakePerson,
+	getRandomVehicleFromCategorys,
+} from "../utils";
 
 /**
  * Generates an embed for the Vehicle to repair.
@@ -18,7 +25,6 @@ export async function generateEmbedRepair(
 	repair: Range,
 	...vehicelCategorys: string[]
 ): Promise<EmbedBuilder> {
-
 	let person = await getFakePerson();
 	let vehicle = await getRandomVehicleFromCategorys(...vehicelCategorys);
 

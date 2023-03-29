@@ -14,15 +14,14 @@ const meta = new SlashCommandBuilder()
 	.setDescription("Get a random Quest for Tailer-Mechanics");
 
 export default command(meta, async ({ interaction }) => {
-	interaction.channel?.sendTyping();
-	return interaction.reply({
-		ephemeral: false,
+	await interaction.deferReply({ ephemeral: false });
+	return interaction.editReply({
 		embeds: [
 			await generateEmbedRepair(
-				{min: 4, max:6}, 
-				{min: 4, max: 6}, 
-				"coupes", 
-				"muscle", 
+				{ min: 4, max: 6 },
+				{ min: 4, max: 6 },
+				"coupes",
+				"muscle",
 				"offroad",
 				"sports",
 				"sportsclassics",

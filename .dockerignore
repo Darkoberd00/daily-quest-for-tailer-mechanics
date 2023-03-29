@@ -1,0 +1,12 @@
+*/node_modules
+*/.example.env
+*/.git
+*/.gitignore
+*/Dockerfile
+*/.dockerignore
+*/docker-compose.yml
+*.md
+LICENSE.txt
+*/dist
+*/.vscode
+*/images

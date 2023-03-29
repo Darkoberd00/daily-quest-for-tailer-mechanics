@@ -7,5 +7,6 @@ const meta = new SlashCommandBuilder()
 	.setDescription("Get a list of all commands for the bot.");
 
 export default command(meta, ({ interaction }) => {
-	return interaction.reply(getCategoryRoot(true));
+	interaction.deferReply({ ephemeral: true });
+	return interaction.editReply(getCategoryRoot());
 });

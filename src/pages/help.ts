@@ -31,7 +31,7 @@ const N = Namespaces;
 const A = Actions;
 
 // Generate root embed for help paginator
-export function getCategoryRoot(ephemeral?: boolean): InteractionReplyOptions {
+export function getCategoryRoot(): InteractionReplyOptions {
 	// Map the categories
 	const mappedCategories = CategoryRoot.map(
 		({ name, description, emoji }) =>
@@ -63,7 +63,6 @@ export function getCategoryRoot(ephemeral?: boolean): InteractionReplyOptions {
 	return {
 		embeds: [embed],
 		components: [component],
-		ephemeral,
 	};
 }
 

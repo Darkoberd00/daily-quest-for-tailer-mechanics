@@ -14,6 +14,8 @@ const meta = new SlashCommandBuilder()
 	);
 
 export default command(meta, ({ interaction }) => {
+	interaction.deferReply({ ephemeral: true });
+	interaction.channel?.sendTyping();
 	let jobname = interaction.options.getString("jobname");
 	let embed = new EmbedBuilder()
 		.setTitle("Stop Job")
@@ -21,8 +23,7 @@ export default command(meta, ({ interaction }) => {
 
 	stopJob(jobname ?? "Test");
 
-	return interaction.reply({
-		ephemeral: true,
+	return interaction.editReply({
 		embeds: [embed],
 	});
 });

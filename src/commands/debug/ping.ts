@@ -13,11 +13,11 @@ const meta = new SlashCommandBuilder()
 			.setRequired(false)
 	);
 
-export default command(meta, ({ interaction }) => {
+export default command(meta, async ({ interaction }) => {
 	const message = interaction.options.getString("message");
+	interaction.deferReply({ ephemeral: true });
 
-	return interaction.reply({
-		ephemeral: true,
+	return await interaction.editReply({
 		content: message ?? "Pong! 🏓",
 	});
 });

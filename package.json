@@ -6,7 +6,7 @@
 	"scripts": {
 		"build": "tsc",
 		"start": "node ./dist",
-		"dev": "nodemon --config nodemon.json src/index.ts",
+		"dev": "nodemon -L --config nodemon.json src/index.ts",
 		"deploy": "cross-env IS_SCRIPT=true ts-node src/scripts/deploy",
 		"deploy-prod": "cross-env NODE_ENV=production npm run deploy",
 		"style": "prettier --write .",
