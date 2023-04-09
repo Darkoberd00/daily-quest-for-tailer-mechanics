@@ -3,7 +3,6 @@ import {
 	ButtonBuilder,
 	SelectMenuBuilder,
 } from "@discordjs/builders";
-import { debug } from "console";
 import {
 	APIEmbedField,
 	ButtonStyle,

@@ -14,52 +14,78 @@ const meta = new SlashCommandBuilder()
 			.setMaxLength(255)
 			.setRequired(true)
 	)
-	.addIntegerOption((option) =>
+	.addStringOption((option) =>
 		option
-			.setName("seconds")
-			.setDescription("Set this job every x Minute of a Seconds")
-			.setMinValue(0)
-			.setMaxValue(59)
-			.setRequired(false)
+			.setName("time")
+			.addChoices({
+				name: "Every Minute",
+				value: "minute",
+			},{
+				name: "Every Hour",
+				value: "hour",
+			},{
+				name: "Every Day",
+				value: "day",
+			},{
+				name: "Exectly Every Minute",
+				value: "exectlyminute",
+			},{
+				name: "Exectly Every Hour",
+				value: "exectlyhour",
+			},{
+				name: "Exectly Every Day",
+				value: "exectlyday",
+			})
+			.setDescription("Choose a time for this job")
+			.setRequired(true)
 	)
 	.addIntegerOption((option) =>
 		option
-			.setName("minute")
-			.setDescription("Set this job every x Minute of a hour")
+			.setName("timevalue")
+			.setDescription("Set a value for the time")
 			.setMinValue(0)
 			.setMaxValue(59)
-			.setRequired(false)
+			.setRequired(true)
 	)
-	.addIntegerOption((option) =>
-		option
-			.setName("hour")
-			.setDescription("Set this job every x Minute of a day")
-			.setMinValue(0)
-			.setMaxValue(23)
-			.setRequired(false)
-	);
 
-export default command(meta, ({ interaction }) => {
-	interaction.deferReply({ ephemeral: true });
-	interaction.channel?.sendTyping();
-	let sec = interaction.options.getInteger("seconds");
-	let min = interaction.options.getInteger("minute");
-	let hour = interaction.options.getInteger("hour");
+export default command(meta, async ({ interaction }) => {
+	await interaction.deferReply({ ephemeral: true });
 	let jobname = interaction.options.getString("jobname");
+	let time = interaction.options.getString("time");
+	let timevalue = interaction.options.getInteger("timevalue");
 
-	let rules = new RecurrenceRule();
-	rules.second = sec ?? 20;
+	let rule: RecurrenceRule|string = "1 * * * *";
 
-	if (min != null) {
-		rules.minute = min;
-	}
-	if (hour != null) {
-		rules.hour;
+	if(time?.startsWith("exectly")){
+		rule = new RecurrenceRule();
+		switch(time){
+			case "exectlyminute":
+				rule.minute = timevalue??0;
+				break;
+			case "exectlyhour":
+				rule.hour = timevalue??0;
+				break;
+			case "exectlyday":
+				rule.dayOfWeek = timevalue??0;
+				break;
+		}
+	}else{
+		switch(time){
+			case "minute":
+				rule = "*/"+timevalue+" * * * *";
+				break;
+			case "hour":
+				rule = "0 */"+timevalue+" * * *";
+				break;
+			case "day":
+				rule = "0 0 */"+timevalue+" * *";
+				break;
+		}
 	}
 
 	createdJob(
 		jobname ?? "Test",
-		scheduleJob(rules, async (job) => {
+		scheduleJob(rule, async (job) => {
 			let message = new EmbedBuilder();
 			message.setTitle("schedule job");
 			message.setDescription("This is a test Message");

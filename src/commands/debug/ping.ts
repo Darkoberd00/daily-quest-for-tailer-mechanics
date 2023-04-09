@@ -15,7 +15,7 @@ const meta = new SlashCommandBuilder()
 
 export default command(meta, async ({ interaction }) => {
 	const message = interaction.options.getString("message");
-	interaction.deferReply({ ephemeral: true });
+	await interaction.deferReply({ ephemeral: true });
 
 	return await interaction.editReply({
 		content: message ?? "Pong! 🏓",

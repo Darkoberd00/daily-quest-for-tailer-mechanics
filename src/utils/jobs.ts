@@ -1,6 +1,6 @@
 import { Job } from "node-schedule";
 
-const Jobs: Map<String, Job> = new Map();
+export const Jobs: Map<String, Job> = new Map();
 
 export function createdJob(name: String, job: Job): void {
 	if (hasJob(name)) {

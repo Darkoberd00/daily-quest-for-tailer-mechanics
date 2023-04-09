@@ -13,8 +13,8 @@ const meta = new SlashCommandBuilder()
 			.setRequired(true)
 	);
 
-export default command(meta, ({ interaction }) => {
-	interaction.deferReply({ ephemeral: true });
+export default command(meta, async ({ interaction }) => {
+	await interaction.deferReply({ ephemeral: true });
 	interaction.channel?.sendTyping();
 	let jobname = interaction.options.getString("jobname");
 	let embed = new EmbedBuilder()
