@@ -1,19 +1,11 @@
 import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import { scheduleJob, RecurrenceRule } from "node-schedule";
-import { command, createdJob } from "../../utils";
+import { command, createdJob, hasJob } from "../../utils";
 import { generateEmbedRepair } from "../../embeds";
 
 const meta = new SlashCommandBuilder()
-	.setName("schedule")
-	.setDescription("a intern test for node-schedule")
-	.addStringOption((option) =>
-		option
-			.setName("jobname")
-			.setDescription("Set a name for this Job")
-			.setMinLength(1)
-			.setMaxLength(255)
-			.setRequired(true)
-	)
+	.setName("startdaily")
+	.setDescription("start dailyquest at a specific time")
 	.addStringOption((option) =>
 		option
 			.setName("time")
@@ -36,7 +28,7 @@ const meta = new SlashCommandBuilder()
 				name: "Exectly Every Day",
 				value: "exectlyday",
 			})
-			.setDescription("Choose a time for this job")
+			.setDescription("Choose a time for this dailyquest")
 			.setRequired(true)
 	)
 	.addIntegerOption((option) =>
@@ -50,7 +42,6 @@ const meta = new SlashCommandBuilder()
 
 export default command(meta, async ({ interaction }) => {
 	await interaction.deferReply({ ephemeral: true });
-	let jobname = interaction.options.getString("jobname");
 	let time = interaction.options.getString("time");
 	let timevalue = interaction.options.getInteger("timevalue");
 
@@ -63,12 +54,9 @@ export default command(meta, async ({ interaction }) => {
 				rule.minute = timevalue??0;
 				break;
 			case "exectlyhour":
-				rule.minute = 0;
 				rule.hour = timevalue??0;
 				break;
 			case "exectlyday":
-				rule.minute = 0;
-				rule.hour = 0;
 				rule.dayOfWeek = timevalue??0;
 				break;
 		}
@@ -86,16 +74,16 @@ export default command(meta, async ({ interaction }) => {
 		}
 	}
 
+    if (hasJob("Car")) {
+        return interaction.editReply({
+            content: "dailyquest is already started!",
+        });
+    }
+
 	createdJob(
-		jobname ?? "Test",
+		"Car",
 		scheduleJob(rule, async (job) => {
-			let message = new EmbedBuilder();
-			message.setTitle("schedule job");
-			message.setDescription("This is a test Message");
-			message.setTimestamp(job);
-			interaction.channel?.sendTyping();
-			if (jobname == "Car") {
-				message = await generateEmbedRepair(
+			let message = await generateEmbedRepair(
 					{ min: 4, max: 6 },
 					{ min: 4, max: 6 },
 					"coupes",
@@ -106,11 +94,7 @@ export default command(meta, async ({ interaction }) => {
 					"super",
 					"suvs",
 					"vans"
-				);
-			}
-			message.setFooter({
-				text: "[JobName: " + jobname + "]",
-			});
+			);
 			interaction.channel?.send({
 				embeds: [message],
 			});
@@ -118,6 +102,6 @@ export default command(meta, async ({ interaction }) => {
 	);
 
 	return interaction.editReply({
-		content: "schedule is started",
+		content: "Dayly Quest started!",
 	});
 });

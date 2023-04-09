@@ -1,11 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
 import {
 	command,
-	getFakePerson,
-	getRandomVehicleFromCategorys,
-	generateRepairList,
-	generateInspectionList,
-	generateTuningList,
 } from "../../utils";
 import { generateEmbedRepair } from "../../embeds";
 
