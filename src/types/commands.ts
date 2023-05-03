@@ -20,7 +20,9 @@ export interface CommandAutocompleteProps {
 }
 
 export type CommandExec = (props: CommandProps) => Awaitable<unknown>;
-export type CommandAutocompleteExec = (props: CommandAutocompleteProps) => Awaitable<unknown>;
+export type CommandAutocompleteExec = (
+	props: CommandAutocompleteProps
+) => Awaitable<unknown>;
 export type CommandMeta =
 	| Promise<SlashCommandBuilder>
 	| Promise<Omit<SlashCommandBuilder, "addSubcommand" | "addSubcommandGroup">>;

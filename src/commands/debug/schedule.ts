@@ -1,52 +1,62 @@
 import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import { scheduleJob, RecurrenceRule } from "node-schedule";
-import { command, createdJob } from "../../utils";
+import { PromiseSlashCommandBuilder, command, createdJob } from "../../utils";
 import { generateEmbedRepair } from "../../embeds";
 
-const meta = (async () => { return new SlashCommandBuilder()
-	.setName("schedule")
-	.setDescription("a intern test for node-schedule")
-	.addStringOption((option) =>
-		option
-			.setName("jobname")
-			.setDescription("Set a name for this Job")
-			.setMinLength(1)
-			.setMaxLength(255)
-			.setRequired(true)
-	)
-	.addStringOption((option) =>
-		option
-			.setName("time")
-			.addChoices({
-				name: "Every Minute",
-				value: "minute",
-			},{
-				name: "Every Hour",
-				value: "hour",
-			},{
-				name: "Every Day",
-				value: "day",
-			},{
-				name: "Exectly Every Minute",
-				value: "exectlyminute",
-			},{
-				name: "Exectly Every Hour",
-				value: "exectlyhour",
-			},{
-				name: "Exectly Every Day",
-				value: "exectlyday",
-			})
-			.setDescription("Choose a time for this job")
-			.setRequired(true)
-	)
-	.addIntegerOption((option) =>
-		option
-			.setName("timevalue")
-			.setDescription("Set a value for the time")
-			.setMinValue(0)
-			.setMaxValue(59)
-			.setRequired(true)
-	) })();	
+const meta = PromiseSlashCommandBuilder(
+	"schedule",
+	"a intern test for node-schedule"
+).then((builder) =>
+	builder
+		.addStringOption((option) =>
+			option
+				.setName("jobname")
+				.setDescription("Set a name for this Job")
+				.setMinLength(1)
+				.setMaxLength(255)
+				.setRequired(true)
+		)
+		.addStringOption((option) =>
+			option
+				.setName("time")
+				.addChoices(
+					{
+						name: "Every Minute",
+						value: "minute",
+					},
+					{
+						name: "Every Hour",
+						value: "hour",
+					},
+					{
+						name: "Every Day",
+						value: "day",
+					},
+					{
+						name: "Exectly Every Minute",
+						value: "exectlyminute",
+					},
+					{
+						name: "Exectly Every Hour",
+						value: "exectlyhour",
+					},
+					{
+						name: "Exectly Every Day",
+						value: "exectlyday",
+					}
+				)
+				.setDescription("Choose a time for this job")
+				.setRequired(true)
+		)
+		.addIntegerOption((option) =>
+			option
+				.setName("timevalue")
+				.setDescription("Set a value for the time")
+				.setMinValue(0)
+				.setMaxValue(59)
+				.setRequired(true)
+		)
+);
 
 export default command(meta, async ({ interaction }) => {
 	await interaction.deferReply({ ephemeral: true });
@@ -54,34 +64,34 @@ export default command(meta, async ({ interaction }) => {
 	let time = interaction.options.getString("time");
 	let timevalue = interaction.options.getInteger("timevalue");
 
-	let rule: RecurrenceRule|string = "1 * * * *";
+	let rule: RecurrenceRule | string = "1 * * * *";
 
-	if(time?.startsWith("exectly")){
+	if (time?.startsWith("exectly")) {
 		rule = new RecurrenceRule();
-		switch(time){
+		switch (time) {
 			case "exectlyminute":
-				rule.minute = timevalue??0;
+				rule.minute = timevalue ?? 0;
 				break;
 			case "exectlyhour":
 				rule.minute = 0;
-				rule.hour = timevalue??0;
+				rule.hour = timevalue ?? 0;
 				break;
 			case "exectlyday":
 				rule.minute = 0;
 				rule.hour = 0;
-				rule.dayOfWeek = timevalue??0;
+				rule.dayOfWeek = timevalue ?? 0;
 				break;
 		}
-	}else{
-		switch(time){
+	} else {
+		switch (time) {
 			case "minute":
-				rule = "*/"+timevalue+" * * * *";
+				rule = "*/" + timevalue + " * * * *";
 				break;
 			case "hour":
-				rule = "0 */"+timevalue+" * * *";
+				rule = "0 */" + timevalue + " * * *";
 				break;
 			case "day":
-				rule = "0 0 */"+timevalue+" * *";
+				rule = "0 0 */" + timevalue + " * *";
 				break;
 		}
 	}

@@ -6,4 +6,9 @@ import stopdaily from "./stopdaily";
 import { Command } from "../../types";
 //import listjobs from "./listjobs";
 
-export default category("General", [getquest, help, startdaily, stopdaily/*, listjobs*/]);
+export default category("General", [
+	getquest,
+	help,
+	startdaily,
+	stopdaily /*, listjobs*/,
+]);

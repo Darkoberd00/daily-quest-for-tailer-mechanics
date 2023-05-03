@@ -21,10 +21,10 @@ export default event("interactionCreate", async ({ log }, interaction) => {
 					Namespaces.select,
 					(interaction as StringSelectMenuInteraction).values[0]
 				);
-				return await interaction.editReply(getCategoryPage(newId));
+				return await interaction.editReply(await getCategoryPage(newId));
 			case Namespaces.action:
 				return await interaction.editReply(
-					getCategoryPage(interaction.customId)
+					await getCategoryPage(interaction.customId)
 				);
 
 			default:

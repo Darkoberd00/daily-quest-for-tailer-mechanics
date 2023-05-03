@@ -74,13 +74,14 @@ export async function getCategoryPage(
 		readId(interactionId);
 
 	const categoryChunksPromis = CategoryRoot.map(async (c) => {
-
 		const commandlist = await c.commands;
 		// Pre-map all commands as embed fields
-		const commands: APIEmbedField[] = await Promise.all(commandlist.map( async (c) => ({
-			name: (await c.meta).name,
-			value: (await c.meta).description,
-		})));
+		const commands: APIEmbedField[] = await Promise.all(
+			commandlist.map(async (c) => ({
+				name: (await c.meta).name,
+				value: (await c.meta).description,
+			}))
+		);
 
 		return {
 			...c,
@@ -91,7 +92,6 @@ export async function getCategoryPage(
 	const categoryChunks = await Promise.all(categoryChunksPromis);
 
 	// Find category it is a prommise so we need to await it
-	
 
 	const category = categoryChunks.find(({ name }) => name === categoryName);
 	if (!category)

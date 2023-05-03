@@ -1,17 +1,19 @@
 import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
-import { command, stopJob } from "../../utils";
+import { PromiseSlashCommandBuilder, command, stopJob } from "../../utils";
 
-const meta = new SlashCommandBuilder()
-	.setName("stopschedule")
-	.setDescription("Stop test schedule from node-schedule")
-	.addStringOption((option) =>
+const meta = PromiseSlashCommandBuilder(
+	"stopschedule",
+	"Stop test schedule from node-schedule"
+).then((builder) =>
+	builder.addStringOption((option) =>
 		option
 			.setName("jobname")
 			.setDescription("stop job name")
 			.setMinLength(1)
 			.setMaxLength(255)
 			.setRequired(true)
-	);
+	)
+);
 
 export default command(meta, async ({ interaction }) => {
 	await interaction.deferReply({ ephemeral: true });

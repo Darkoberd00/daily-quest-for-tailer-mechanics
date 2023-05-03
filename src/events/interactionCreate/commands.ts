@@ -54,10 +54,12 @@ export default event(
 					);
 				return interaction.reply(Reply.error("Something went wrong :("));
 			} else {
-				return interaction.respond([{
-					name: "error",
-					value: "Something went wrong :(",
-				}]);
+				return interaction.respond([
+					{
+						name: "error",
+						value: "Something went wrong :(",
+					},
+				]);
 			}
 		}
 	}
