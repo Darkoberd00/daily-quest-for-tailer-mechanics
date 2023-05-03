@@ -1,9 +1,10 @@
 import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import { command, hasJob, stopJob } from "../../utils";
 
-const meta = new SlashCommandBuilder()
+const meta = (async () => { return new SlashCommandBuilder()
 	.setName("stopdaily")
 	.setDescription("Stop this dailyquest schedule")
+})();
 
 
 export default command(meta, async ({ interaction }) => {

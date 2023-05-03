@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 import { command } from "../../utils";
 
-const meta = new SlashCommandBuilder()
+const meta = (async () => { return new SlashCommandBuilder()
 	.setName("ping")
 	.setDescription("Ping the bot for a response.")
 	.addStringOption((option) =>
@@ -11,7 +11,7 @@ const meta = new SlashCommandBuilder()
 			.setMinLength(1)
 			.setMaxLength(2000)
 			.setRequired(false)
-	);
+	) })();
 
 export default command(meta, async ({ interaction }) => {
 	const message = interaction.options.getString("message");

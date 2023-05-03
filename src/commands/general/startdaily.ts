@@ -3,7 +3,7 @@ import { scheduleJob, RecurrenceRule } from "node-schedule";
 import { command, createdJob, hasJob } from "../../utils";
 import { generateEmbedRepair } from "../../embeds";
 
-const meta = new SlashCommandBuilder()
+const meta = (async () => { return new SlashCommandBuilder()
 	.setName("startdaily")
 	.setDescription("start dailyquest at a specific time")
 	.addStringOption((option) =>
@@ -39,6 +39,7 @@ const meta = new SlashCommandBuilder()
 			.setMaxValue(59)
 			.setRequired(true)
 	)
+})();
 
 export default command(meta, async ({ interaction }) => {
 	await interaction.deferReply({ ephemeral: true });

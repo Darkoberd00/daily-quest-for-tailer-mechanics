@@ -66,25 +66,32 @@ export function getCategoryRoot(): InteractionReplyOptions {
 }
 
 // Generate new embed for current category page
-export function getCategoryPage(
+export async function getCategoryPage(
 	interactionId: string
-): InteractionReplyOptions {
+): Promise<InteractionReplyOptions> {
 	// Extract needed metadata from interactionId
 	const [_namespace, categoryName, action, currentOffset] =
 		readId(interactionId);
 
-	const categoryChunks = CategoryRoot.map((c) => {
+	const categoryChunksPromis = CategoryRoot.map(async (c) => {
+
+		const commandlist = await c.commands;
 		// Pre-map all commands as embed fields
-		const commands: APIEmbedField[] = c.commands.map((c) => ({
-			name: c.meta.name,
-			value: c.meta.description,
-		}));
+		const commands: APIEmbedField[] = await Promise.all(commandlist.map( async (c) => ({
+			name: (await c.meta).name,
+			value: (await c.meta).description,
+		})));
 
 		return {
 			...c,
 			commands: chunk(commands, 10),
 		};
 	});
+
+	const categoryChunks = await Promise.all(categoryChunksPromis);
+
+	// Find category it is a prommise so we need to await it
+	
 
 	const category = categoryChunks.find(({ name }) => name === categoryName);
 	if (!category)
